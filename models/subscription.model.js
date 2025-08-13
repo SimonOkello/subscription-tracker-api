@@ -68,7 +68,7 @@ const SubscriptionSchema = new mongoose.Schema(
             type: Date,
             validate: {
                 validator: function (value) {
-                    return value <= this.startDate;
+                    return value >= this.startDate;
                 },
 
                 message: "Renewal date must be after start date",
@@ -88,7 +88,7 @@ const SubscriptionSchema = new mongoose.Schema(
 
 // Auto-calculate renewal date if not provided
 SubscriptionSchema.pre("save", async function (next) {
-    if (!this.renewalDate) {
+    if (this.renewalDate) {
         const renewalPeriods = {
             daily: 1,
             weekly: 7,
